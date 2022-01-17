@@ -26,7 +26,7 @@ class STFT(layers.Layer):
         return config
 
 
-class LogMelSpectrogram(layers.Layer):
+class LogMelSpectrogram(STFT):
     def __init__(
             self,
             sample_rate: int,
@@ -35,11 +35,9 @@ class LogMelSpectrogram(layers.Layer):
             n_mels: int,
             epsilon: float = 1e-9
     ):
-        super(LogMelSpectrogram, self).__init__()
+        super(LogMelSpectrogram, self).__init__(n_fft=nfft, hop_length=hop_length)
 
         self._sample_rate = sample_rate
-        self._n_fft = n_fft
-        self._hop_length = hop_length
         self._n_mels = n_mels
         self._epsilon = epsilon
         self._lin_to_mel_matrix = None
@@ -54,7 +52,7 @@ class LogMelSpectrogram(layers.Layer):
         )
 
     def call(self, inputs, *args, **kwargs):
-        _stft = tf.signal.stft(inputs, frame_length=self._n_fft, frame_step=self._hop_length)
+        _stft = super(LogMelSpectrogram, self).call(inputs, *args, **kwargs)
         _spec = tf.abs(_stft)
         _mel_spec = tf.matmul(tf.square(_spec), self._lin_to_mel_matrix)
         return tf_log10(_mel_spec + self._epsilon)
@@ -63,8 +61,6 @@ class LogMelSpectrogram(layers.Layer):
         config = super(LogMelSpectrogram, self).get_config()
         config.update({
             "_sample_rate": self._sample_rate,
-            "_n_fft": self._n_fft,
-            "_hop_length": self._hop_length,
             "_n_mels": self._n_mels,
             "_epsilon": self._epsilon
         })
