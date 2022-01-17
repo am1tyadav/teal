@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import tensorflow as tf
 from tensorflow.keras import layers, backend
 
@@ -9,12 +10,10 @@ class AugmentationLayer(layers.Layer):
         assert 0. < chance <= 1.
         self._chance = chance
 
-    @tf.function
+    @abstractmethod
     def compute_augmentation(self, inputs):
-        # This will be implemented by different subclasses
-        return inputs
+        ...
 
-    @tf.function
     def call(self, inputs, *args, **kwargs):
         training = kwargs.get("training")
 
@@ -37,7 +36,6 @@ class InversePolarity(AugmentationLayer):
     def __init__(self, chance: float):
         super(InversePolarity, self).__init__(chance=chance)
 
-    @tf.function
     def compute_augmentation(self, inputs):
         return -1. * inputs
 
@@ -51,7 +49,6 @@ class RandomGain(AugmentationLayer):
         self._min_factor = min_factor
         self._max_factor = max_factor
 
-    @tf.function
     def compute_augmentation(self, inputs):
         batch_size = tf.shape(inputs)[0]
         gain_factors = tf.random.uniform(
@@ -67,5 +64,29 @@ class RandomGain(AugmentationLayer):
         config.update({
             "_min_factor": self._min_factor,
             "_max_factor": self._max_factor,
+        })
+        return config
+
+
+class RandomNoise(AugmentationLayer):
+    def __init__(self, chance: float,
+                 max_noise: float = 0.005):
+        super(RandomNoise, self).__init__(chance=chance)
+
+        self._max_noise = max_noise
+
+    def compute_augmentation(self, inputs):
+        random_noise = tf.random.uniform(
+            tf.shape(inputs),
+            minval=-1. * self._max_noise,
+            maxval=self._max_noise,
+            dtype=inputs.dtype
+        )
+        return inputs + random_noise
+
+    def get_config(self):
+        config = super(RandomNoise, self).get_config()
+        config.update({
+            "_max_noise": self._max_noise
         })
         return config
