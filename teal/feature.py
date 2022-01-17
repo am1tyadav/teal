@@ -10,7 +10,7 @@ class Normalize(layers.Layer):
     def call(self, inputs, *args, **kwargs):
         _abs = tf.abs(inputs)
         _max = tf.reduce_max(_abs, axis=1)
-        _normalized = inputs / tf.expand_dims(_max, axis=1)
+        _normalized = inputs / (tf.expand_dims(_max, axis=1) + 1e-6)
         return _normalized
 
 
