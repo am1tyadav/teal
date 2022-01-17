@@ -70,7 +70,7 @@ class RandomGain(AugmentationLayer):
 
 class RandomNoise(AugmentationLayer):
     def __init__(self, chance: float,
-                 max_noise: float = 0.005):
+                 max_noise: float = 0.05):
         super(RandomNoise, self).__init__(chance=chance)
 
         self._max_noise = max_noise
