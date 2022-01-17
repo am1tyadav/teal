@@ -87,6 +87,6 @@ class RandomNoise(AugmentationLayer):
     def get_config(self):
         config = super(RandomNoise, self).get_config()
         config.update({
-            "_max_noise": self._max_noise
+            "_max_noise": self._max_noise,
         })
         return config

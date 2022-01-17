@@ -3,6 +3,17 @@ from tensorflow.keras import layers
 from teal.utils import tf_log10
 
 
+class Normalize(layers.Layer):
+    def __init__(self):
+        super(Normalize, self).__init__()
+
+    def call(self, inputs, *args, **kwargs):
+        _abs = tf.abs(inputs)
+        _max = tf.reduce_max(_abs, axis=1)
+        _normalized = inputs / _max
+        return _normalized
+
+
 class STFT(layers.Layer):
     def __init__(self, n_fft: int, hop_length: int):
         super(STFT, self).__init__()
@@ -35,7 +46,7 @@ class LogMelSpectrogram(STFT):
             n_mels: int,
             epsilon: float = 1e-9
     ):
-        super(LogMelSpectrogram, self).__init__(n_fft=nfft, hop_length=hop_length)
+        super(LogMelSpectrogram, self).__init__(n_fft=n_fft, hop_length=hop_length)
 
         self._sample_rate = sample_rate
         self._n_mels = n_mels
