@@ -7,7 +7,8 @@ from tests.utils import get_audio_examples, N_FFT, HOP_LEN
 
 class TestSpectrogram(tf.test.TestCase):
     def setUp(self):
-        self._layer = Spectrogram(N_FFT, HOP_LEN)
+        _power = 2.
+        self._layer = Spectrogram(N_FFT, HOP_LEN, power=_power)
         self._examples = get_audio_examples()
         self._results = self._layer(self._examples)
 
@@ -19,7 +20,7 @@ class TestSpectrogram(tf.test.TestCase):
             _spec, _ = librosa.core.spectrum._spectrogram(
                 y=_numpy_examples[i],
                 n_fft=N_FFT, hop_length=HOP_LEN,
-                power=2, center=False
+                power=_power, center=False
             )
             _spec = np.transpose(_spec)
             _expected.append(_spec)
