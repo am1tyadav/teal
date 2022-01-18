@@ -9,3 +9,5 @@ from teal.power_to_db import PowerToDb
 from teal.inverse_polarity import InversePolarity
 from teal.random_gain import RandomGain
 from teal.random_noise import RandomNoise
+# Others
+from teal.normalize import Normalize, NormalizeAudio, NormalizeSpectrum
