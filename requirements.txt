@@ -1,1 +1,3 @@
 tensorflow>=2
+numpy
+librosa
