@@ -13,7 +13,7 @@ DURATION = 29
 CHUNK_LENGTH = 3
 
 
-def get_audio_examples():
+def get_audio_examples(num_examples: int = 2):
     def _get_chunk(y):
         start_sample = random.randint(0, DURATION - CHUNK_LENGTH) * SAMPLE_RATE
         end_sample = start_sample + CHUNK_LENGTH * SAMPLE_RATE
@@ -24,7 +24,6 @@ def get_audio_examples():
 
     audio, _ = tf.audio.decode_wav(audio_data)
     audio = tf.transpose(audio).numpy()[0]
-    num_examples = random.randint(1, 4)
     examples = np.zeros((num_examples, CHUNK_LENGTH * SAMPLE_RATE))
 
     for i in range(0, num_examples):

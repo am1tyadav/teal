@@ -1,22 +1,26 @@
+from typing import Any
 import tensorflow as tf
 import numpy as np
 import librosa
 from teal.power_to_db import PowerToDb
+from tests.common import TealTest
 
 
-class TestPowerToDb(tf.test.TestCase):
+class TestPowerToDb(TealTest.TealTestCase):
+    def value_assertion(self, a: Any, b: Any):
+        return self.assertAllClose(a, b, rtol=0.1, atol=0.1)
+
     def setUp(self):
-        self._layer = PowerToDb()
-        self._examples = np.random.normal(size=(4, 20, 30))
-        self._results = self._layer(self._examples)
-        self._expected_results = tf.constant(librosa.power_to_db(self._examples))
+        self.setup_layer(
+            layer=PowerToDb(),
+            single_example=tf.random.normal(shape=(1, 126, 128)),
+            batch_example=tf.random.normal(shape=(3, 126, 128)),
+            param_names=["_top_db", "_epsilon"]
+        )
 
-    def test_shapes(self):
-        self.assertShapeEqual(self._results.numpy(), self._expected_results)
-
-    def test_values(self):
-        self.assertAllClose(self._results, self._expected_results,
-                            rtol=0.05, atol=5.)
+    def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:
+        _numpy_examples = inputs.numpy()
+        return librosa.power_to_db(_numpy_examples)
 
 
 if __name__ == "__main__":
