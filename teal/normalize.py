@@ -1,11 +1,22 @@
+"""Normalization Layers
+
+Normalize
+    NormalizeAudio
+    NormalizeSpectrum
+"""
+
 from typing import Any
 import tensorflow as tf
 from tensorflow.keras import layers
 
 
 class Normalize(layers.Layer):
-    def __init__(self, axes: Any = 1, epsilon: float = 1e-10):
-        super(Normalize, self).__init__()
+    def __init__(self,
+                 axes: Any,
+                 *args,
+                 epsilon: float = 1e-10,
+                 **kwargs):
+        super().__init__(*args, **kwargs)
 
         self._axes = axes
         self._epsilon = epsilon
@@ -16,7 +27,7 @@ class Normalize(layers.Layer):
         return inputs / _max
 
     def get_config(self):
-        config = super(Normalize, self).get_config()
+        config = super().get_config()
         config.update({
             "_axes": self._axes,
             "_epsilon": self._epsilon
@@ -24,16 +35,10 @@ class Normalize(layers.Layer):
 
 
 class NormalizeAudio(Normalize):
-    def __init__(self):
-        super(NormalizeAudio, self).__init__(axes=1)
-
-    def call(self, inputs, *args, **kwargs):
-        return super(NormalizeAudio, self).call(inputs, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(1, *args, **kwargs)
 
 
 class NormalizeSpectrum(Normalize):
-    def __init__(self):
-        super(NormalizeSpectrum, self).__init__(axes=(1, 2))
-
-    def call(self, inputs, *args, **kwargs):
-        return super(NormalizeSpectrum, self).call(inputs, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__((1, 2), *args, **kwargs)

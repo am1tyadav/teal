@@ -1,20 +1,34 @@
+"""MelSpectrogram
+
+Compute mel spectrogram of input audio
+"""
+
 import tensorflow as tf
 from teal.spectrogram import Spectrogram
 
 
 class MelSpectrogram(Spectrogram):
+    """MelSpectrogram
+
+    Compute mel spectrogram of input audio
+    """
+
     def __init__(
             self,
             sample_rate: int,
             n_fft: int,
             hop_length: int,
             n_mels: int,
-            power: float = 2.
+            *args,
+            power: float = 2.,
+            **kwargs
     ):
-        super(MelSpectrogram, self).__init__(
-            n_fft=n_fft,
-            hop_length=hop_length,
-            power=power
+        super().__init__(
+            n_fft,
+            hop_length,
+            *args,
+            power=power,
+            **kwargs
         )
 
         self._sample_rate = sample_rate
@@ -31,11 +45,11 @@ class MelSpectrogram(Spectrogram):
         )
 
     def call(self, inputs, *args, **kwargs):
-        _spec = super(MelSpectrogram, self).call(inputs, *args, **kwargs)
+        _spec = super().call(inputs, *args, **kwargs)
         return tf.matmul(_spec, self._lin_to_mel_matrix)
 
     def get_config(self):
-        config = super(MelSpectrogram, self).get_config()
+        config = super().get_config()
         config.update({
             "_sample_rate": self._sample_rate,
             "_n_mels": self._n_mels

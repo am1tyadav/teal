@@ -1,11 +1,19 @@
+"""RandomNoise
+
+Applies random noise to input audio
+"""
+
 import tensorflow as tf
 from teal.augment import AugmentationLayer
 
 
 class RandomNoise(AugmentationLayer):
-    def __init__(self, chance: float,
-                 max_noise: float = 0.05):
-        super(RandomNoise, self).__init__(chance=chance)
+    def __init__(self,
+                 chance: float,
+                 *args,
+                 max_noise: float = 0.05,
+                 **kwargs):
+        super().__init__(chance, *args, **kwargs)
 
         self._max_noise = max_noise
 
@@ -19,7 +27,7 @@ class RandomNoise(AugmentationLayer):
         return inputs + random_noise
 
     def get_config(self):
-        config = super(RandomNoise, self).get_config()
+        config = super().get_config()
         config.update({
             "_max_noise": self._max_noise,
         })

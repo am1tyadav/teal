@@ -1,12 +1,24 @@
+"""PowerToDb
+
+Scales input spectrum power to db
+"""
+
 import tensorflow as tf
 from tensorflow.keras import layers
 
 
 class PowerToDb(layers.Layer):
+    """PowerToDb
+
+    Scales input spectrum power to db
+    """
+
     def __init__(self,
+                 *args,
                  top_db: float = 80.0,
-                 epsilon: float = 1e-10):
-        super(PowerToDb, self).__init__()
+                 epsilon: float = 1e-10,
+                 **kwargs):
+        super().__init__(*args, **kwargs)
 
         self._top_db = top_db
         self._epsilon = epsilon
@@ -21,7 +33,7 @@ class PowerToDb(layers.Layer):
         return _clipped
 
     def get_config(self):
-        config = super(PowerToDb, self).get_config()
+        config = super().get_config()
         config.update({
             "_top_db": self._top_db,
             "_epsilon": self._epsilon
