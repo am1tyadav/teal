@@ -20,4 +20,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run linter
       run: |
-        pylint teal
+        pylint --fail-under=7 teal
