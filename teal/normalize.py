@@ -37,6 +37,7 @@ class Normalize(layers.Layer):
             "_expand": self._expand,
             "_epsilon": self._epsilon
         })
+        return config
 
 
 class NormalizeAudio(Normalize):
