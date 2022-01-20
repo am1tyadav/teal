@@ -1,13 +1,9 @@
 from typing import Any
 import tensorflow as tf
 import numpy as np
-import librosa
 from teal.spectrogram import Spectrogram
-from tests.utils import get_audio_examples, N_FFT, HOP_LEN
+from tests.utils import from_audio_to_spectrogram, get_audio_examples, N_FFT, HOP_LEN
 from tests.common import TealTest
-
-
-# Todo - input needs to be complex numbers
 
 
 class TestSpectrogram(TealTest.TealTestCase):
@@ -23,20 +19,7 @@ class TestSpectrogram(TealTest.TealTestCase):
         return self.assertAllClose(a, b, atol=0.01, rtol=0.01)
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:
-        _expected = []
-        _numpy_examples = inputs.numpy()
-        _num_examples = _numpy_examples.shape[0]
-
-        for i in range(0, _num_examples):
-            _spec, _ = librosa.core.spectrum._spectrogram(
-                y=_numpy_examples[i],
-                n_fft=N_FFT, hop_length=HOP_LEN,
-                power=self.power, center=False
-            )
-            _spec = np.expand_dims(np.transpose(_spec), axis=0)
-            _expected.append(_spec)
-
-        return np.concatenate(_expected, axis=0)
+        return from_audio_to_spectrogram(inputs, self.power)
 
 
 if __name__ == "__main__":

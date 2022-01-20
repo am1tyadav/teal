@@ -4,6 +4,7 @@ import numpy as np
 import librosa
 from teal.power_to_db import PowerToDb
 from tests.common import TealTest
+from tests.utils import get_spectrogram_examples
 
 
 class TestPowerToDb(TealTest.TealTestCase):
@@ -11,10 +12,11 @@ class TestPowerToDb(TealTest.TealTestCase):
         return self.assertAllClose(a, b, rtol=0.1, atol=0.1)
 
     def setUp(self):
+        self.power = 2
         self.setup_layer(
             layer=PowerToDb(),
-            single_example=tf.random.normal(shape=(1, 126, 128)),
-            batch_example=tf.random.normal(shape=(3, 126, 128)),
+            single_example=get_spectrogram_examples(1, self.power),
+            batch_example=get_spectrogram_examples(3, self.power),
             param_names=["_top_db", "_epsilon"]
         )
 

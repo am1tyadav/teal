@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 from teal.normalize import NormalizeAudio, NormalizeSpectrum
 from tests.common import TealTest
-from tests.utils import get_audio_examples
+from tests.utils import get_audio_examples, get_spectrogram_examples
 
 
 class TestNormalizeAudio(TealTest.TealTestCase):
@@ -24,10 +24,11 @@ class TestNormalizeAudio(TealTest.TealTestCase):
 
 class TestNormalizeSpectrum(TealTest.TealTestCase):
     def setUp(self):
+        self.power = 2
         self.setup_layer(
             layer=NormalizeSpectrum(),
-            single_example=tf.random.normal(shape=(1, 126, 128)),
-            batch_example=tf.random.normal(shape=(3, 126, 128)),
+            single_example=get_spectrogram_examples(1, self.power),
+            batch_example=get_spectrogram_examples(3, self.power),
             param_names=["_axes", "_expand", "_epsilon"]
         )
 
