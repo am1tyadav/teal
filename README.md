@@ -1,35 +1,18 @@
 # teal
 
-__teal__ (TensorFlow Audio Layers) contains a number of TensorFlow layers specifically written to be used with audio data
+__teal__ is a library of TensorFlow layers written for audio data preprocessing
 
-## Layers
+_No dependency other than TensorFlow_
 
-### Base Layers
+__teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :)
 
-* AugmentationLayer - Any data augmentation layer is subclassed from this
+## Getting Started
 
-### Feature layers
+Install would be using `pip`:
 
-* STFT - Computes Short Time Fourier Transform
-* Spectrogram - Computes power spectrum
-* MelSpectrogram - Computes mel spectrogram. Mel filter bank is computed once when the layer is built
-* PowerToDb - Scales the power spectrum to db . Useful to create log mel spectrogram if used on MelSpectrogram output
+`pip install --user git+https://github.com/am1tyadav/teal.git`
 
-### Data augmentation layers
-
-* InversePolarity - Inverts polarity of input audio
-* RandomGain
-* RandomNoise
-
-### Other preprocessing layers
-
-* Normalize
-* NormalizeAudio
-* NormalizeSpectrum
-
-## Examples
-
-__Create a Log Mel Spectrogram Model with tf.keras__
+### Preprocessing Model - Log Mel Spectrogram
 
 ```python
 import tensorflow as tf
@@ -43,10 +26,50 @@ N_MELS = 64
 
 log_mel_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.NormalizeAudio(),
     teal.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
     teal.PowerToDb()
 ])
 ```
 
-More examples coming soon
+### Audio Data Augmentation Model
+
+```python
+import tensorflow as tf
+import teal
+
+NUM_SAMPLES = 44100
+
+audio_augmentation_model = tf.keras.models.Sequential([
+    tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
+    teal.InversePolarity(0.5),
+    teal.RandomNoise(0.2),
+    teal.RandomGain(0.5)
+])
+```
+
+## Why?
+
+As shown in the examples, __teal__ lets you create `tf.keras` models for audio preprocessing 
+and audio data augmentation. There are certain advantages to this approach:
+
+1. Computations for preprocessing and augmentation can utilize GPU
+2. Online data augmentation can be easily done
+3. Easy to deploy preprocessing logic in production by using the saved preprocessing model
+
+## Layers
+
+### Preprocessing layers
+
+* STFT - Computes Short Time Fourier Transform
+* Spectrogram - Computes power spectrum
+* MelSpectrogram - Computes mel spectrogram. Mel filter bank is computed once when the layer is built
+* PowerToDb - Scales the power spectrum to db . Useful to create log mel spectrogram if used on MelSpectrogram output
+* NormalizeAudio - Scale audio to a range of (-1, 1)
+* NormalizeSpectrum - Scale spectrogram to a range of (-1, 1)
+
+
+### Data augmentation layers
+
+* InversePolarity - Inverts polarity of input audio
+* RandomGain - Apply different random gain to different examples in a batch
+* RandomNoise - Apply random noise to audio samples
