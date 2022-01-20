@@ -2,9 +2,17 @@
 
 __teal__ is a library of TensorFlow layers written for audio data preprocessing
 
-_No dependency other than TensorFlow_
+Easily create TensorFlow models for audio preprocessing and audio data augmentation:
 
-__teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :)
+:heavy_check_mark: No dependency other than TensorFlow
+
+:heavy_check_mark: Computations for preprocessing and data augmentation can utilize GPU
+
+:heavy_check_mark: Online preprocessing and data augmentation
+
+:heavy_check_mark: Deploy preprocessing logic in production by using the saved preprocessing model - i.e. no need to re-implement preprocessing logic in production
+
+__teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :smile:
 
 ## Getting Started
 
@@ -29,6 +37,9 @@ log_mel_model = tf.keras.models.Sequential([
     teal.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
     teal.PowerToDb()
 ])
+
+# Save it as a Keras model or TF saved model
+log_mel_model.save("log_mel.h5")
 ```
 
 ### Audio Data Augmentation Model
@@ -46,15 +57,6 @@ audio_augmentation_model = tf.keras.models.Sequential([
     teal.RandomGain(0.5)
 ])
 ```
-
-## Why?
-
-As shown in the examples, __teal__ lets you create `tf.keras` models for audio preprocessing 
-and audio data augmentation. There are certain advantages to this approach:
-
-1. Computations for preprocessing and augmentation can utilize GPU
-2. Online data augmentation can be easily done
-3. Easy to deploy preprocessing logic in production by using the saved preprocessing model
 
 ## Layers
 
