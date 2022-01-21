@@ -9,7 +9,7 @@ from tests.utils import get_spectrogram_examples
 
 class TestPowerToDb(TealTest.TealTestCase):
     def value_assertion(self, a: Any, b: Any):
-        return self.assertAllClose(a, b, rtol=0.1, atol=0.1)
+        return self.assertAllClose(a, b, atol=10.)
 
     def setUp(self):
         self.power = 2

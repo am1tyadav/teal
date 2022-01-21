@@ -78,17 +78,22 @@ def get_spectrogram_examples(num_examples: int = 2, power: float = 2.):
     return tf.constant(from_audio_to_spectrogram(_examples, power=power))
 
 
-def from_audio_to_log_mel_spectrogram(inputs: tf.Tensor, power: float):
+def from_audio_to_mel_spectrogram(inputs: tf.Tensor, power: float):
     _expected = []
+
+    _specs = from_audio_to_spectrogram(inputs, power)
+    _filter_bank = librosa.filters.mel(
+        sr=SAMPLE_RATE, n_mels=N_MELS, n_fft=N_FFT,
+        norm=None, fmin=0, fmax=SAMPLE_RATE/2,
+        htk=True
+    )
+    _filter_bank = np.transpose(_filter_bank)
+
     _numpy_examples = inputs.numpy()
     _num_examples = _numpy_examples.shape[0]
 
     for i in range(0, _num_examples):
-        _mel_spec = librosa.feature.melspectrogram(
-            y=_numpy_examples[i], sr=SAMPLE_RATE,
-            n_fft=N_FFT, hop_length=HOP_LEN, n_mels=N_MELS,
-            center=False, power=power, fmax=SAMPLE_RATE / 2
-        )
-        _mel_spec = np.expand_dims(np.transpose(_mel_spec), axis=0)
+        _mel_spec = np.dot(_specs[i], _filter_bank)
+        _mel_spec = np.expand_dims(_mel_spec, axis=0)
         _expected.append(_mel_spec)
     return np.concatenate(_expected, axis=0)

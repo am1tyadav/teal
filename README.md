@@ -6,11 +6,11 @@ Easily create TensorFlow models for audio preprocessing and audio data augmentat
 
 :heavy_check_mark: No dependency other than TensorFlow
 
-:heavy_check_mark: Computations for preprocessing and data augmentation can utilize GPU
+:heavy_check_mark: Can utilize GPU
 
 :heavy_check_mark: Online preprocessing and data augmentation
 
-:heavy_check_mark: Deploy preprocessing logic in production by using the saved preprocessing model - i.e. no need to re-implement preprocessing logic in production
+:heavy_check_mark: Deploy preprocessing logic in production with the saved model
 
 __teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :smile:
 
@@ -64,8 +64,8 @@ audio_augmentation_model = tf.keras.models.Sequential([
 
 * STFT - Computes Short Time Fourier Transform
 * Spectrogram - Computes power spectrum
-* MelSpectrogram - Computes mel spectrogram. Mel filter bank is computed once when the layer is built
-* PowerToDb - Scales the power spectrum to db . Useful to create log mel spectrogram if used on MelSpectrogram output
+* MelSpectrogram - Computes mel spectrogram
+* PowerToDb - Scales the power spectrum to db range
 * NormalizeAudio - Scale audio to a range of (-1, 1)
 * NormalizeSpectrum - Scale spectrogram to a range of (-1, 1)
 
