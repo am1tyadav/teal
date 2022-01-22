@@ -11,7 +11,7 @@ class RandomNoise(AugmentationLayer):
     def __init__(self,
                  chance: float,
                  *args,
-                 max_noise: float = 0.05,
+                 max_noise: float = 0.01,
                  **kwargs):
         super().__init__(chance, *args, **kwargs)
 

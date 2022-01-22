@@ -33,6 +33,6 @@ class RandomGain(AugmentationLayer):
         config = super().get_config()
         config.update({
             "_min_factor": self._min_factor,
-            "_max_factor": self._max_factor,
+            "_max_factor": self._max_factor
         })
         return config

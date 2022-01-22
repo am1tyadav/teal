@@ -69,9 +69,12 @@ audio_augmentation_model = tf.keras.models.Sequential([
 * NormalizeAudio - Scale audio to a range of (-1, 1)
 * NormalizeSpectrum - Scale spectrogram to a range of (-1, 1)
 
+More layers WIP
 
 ### Data augmentation layers
 
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
 * RandomNoise - Apply random noise to audio samples
+
+More layers WIP
