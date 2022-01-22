@@ -76,5 +76,6 @@ More layers WIP
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
 * RandomNoise - Apply random noise to audio samples
+* NoiseBank - Apply noise from user given set of audio files
 
 More layers WIP

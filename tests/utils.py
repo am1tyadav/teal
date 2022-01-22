@@ -3,6 +3,7 @@ import random
 import tensorflow as tf
 import librosa
 import numpy as np
+from teal.utils import load_audio
 
 
 FILE_PATH = os.path.join(os.getcwd(), "samples", "led.wav")
@@ -21,11 +22,9 @@ def get_audio_examples(num_examples: int = 2):
         end_sample = start_sample + NUM_SAMPLES
         return y[start_sample: end_sample]
 
-    with open(FILE_PATH, "rb") as f:
-        audio_data = f.read()
+    audio = load_audio(file_path=FILE_PATH, expected_sr=SAMPLE_RATE)
+    audio = audio.numpy()
 
-    audio, _ = tf.audio.decode_wav(audio_data)
-    audio = tf.transpose(audio).numpy()[0]
     examples = np.zeros((num_examples, NUM_SAMPLES))
 
     for i in range(0, num_examples):
