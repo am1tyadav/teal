@@ -16,4 +16,4 @@ class InversePolarity(AugmentationLayer):
         super().__init__(chance=chance, *args, **kwargs)
 
     def compute_augmentation(self, inputs):
-        return -1. * inputs
+        return inputs * -1.

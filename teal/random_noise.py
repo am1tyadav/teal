@@ -8,6 +8,10 @@ from teal.augment import AugmentationLayer
 
 
 class RandomNoise(AugmentationLayer):
+    """RandomNoise
+
+    Applies random noise to input audio
+    """
     def __init__(self,
                  chance: float,
                  *args,

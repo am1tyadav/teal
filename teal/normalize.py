@@ -11,6 +11,10 @@ from tensorflow.keras import layers
 
 
 class Normalize(layers.Layer):
+    """Normalizes input tensor to a range of -1, 1
+
+    The input tensor can be of rank 2 or 3
+    """
     def __init__(self,
                  axes: Any,
                  *args,
@@ -41,10 +45,14 @@ class Normalize(layers.Layer):
 
 
 class NormalizeAudio(Normalize):
+    """Normalizes input tensor of rank 2 to a range of (-1, 1)
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(1, *args, expand=1, **kwargs)
 
 
 class NormalizeSpectrum(Normalize):
+    """Normalizes input tensor of rank 3 to a range of (-1, 1)
+    """
     def __init__(self, *args, **kwargs):
         super().__init__((1, 2), *args, expand=2, **kwargs)

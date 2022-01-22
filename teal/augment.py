@@ -23,14 +23,13 @@ class AugmentationLayer(layers.Layer):
         self._chance = chance
 
     @abstractmethod
-    def compute_augmentation(self, inputs):
-        """compute_augmentation
+    def compute_augmentation(self, inputs: tf.Tensor):
+        """Abstract method that must be implemented by any data augmentation layers
 
-        This function should be implemented by subclassed layers
-        With the data augmentation logic
-
-        :param inputs: Input tensor
-        :return: Augmented tensor
+        Args:
+            inputs: tf.Tensor - Input tensor
+        Returns:
+            Augmented tensor
         """
         ...
 

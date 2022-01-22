@@ -8,6 +8,10 @@ from teal.augment import AugmentationLayer
 
 
 class RandomGain(AugmentationLayer):
+    """RandomGain
+
+    Applies random gain to input audio
+    """
     def __init__(self,
                  chance: float,
                  *args,

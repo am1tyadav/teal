@@ -9,10 +9,11 @@ from teal.augment import AugmentationLayer
 from teal.utils import load_audio
 
 
-# Todo - Provide a set of default noise files
-
-
 class NoiseBank(AugmentationLayer):
+    """NoiseBank
+
+    Applies noise from noise bank to input audio
+    """
     def __init__(self,
                  chance: float,
                  num_samples: int,
@@ -21,12 +22,17 @@ class NoiseBank(AugmentationLayer):
                  sample_rate: int,
                  *args,
                  **kwargs):
-        """
-        :param chance: Likelihood of augmentation applied in each call
-        :param num_samples: Number of samples to use from the noise audio
-        :param noise_bank: File paths of audio files to use as noises
-        :param noise_weights: Weights assigned to the noise_bank files
-        :param sample_rate: Expected sample rate of the audio files
+        """Apply randomly selected noises to input tensor
+
+        User given wav files are loaded when the layer is built to be applied
+        as noises when input is passed to the layer
+
+        Args:
+            chance: float - Likelihood of augmentation applied in each call
+            num_samples: int - Number of samples to use from the noise audio
+            noise_bank: List[str] - File paths of audio files to use as noises
+            noise_weights: List[float] - Weights assigned to the noise_bank files
+            sample_rate: int - Expected sample rate of the audio files
         """
         super().__init__(chance, *args, **kwargs)
 
@@ -37,7 +43,6 @@ class NoiseBank(AugmentationLayer):
         self._noises = None
 
     def build(self, input_shape):
-        # Load noise bank files as tensors
         for file_path in self._noise_bank:
             noise_sample = load_audio(file_path, self._sample_rate)[:self._num_samples]
             noise_sample = tf.expand_dims(noise_sample, axis=0)
@@ -45,7 +50,7 @@ class NoiseBank(AugmentationLayer):
             if self._noises is None:
                 self._noises = noise_sample
             else:
-                self._noises = tf.concat([self._noises, noise_sample], axis=0)
+                self._noises = tf.concat(values=[self._noises, noise_sample], concat_dim=0)
 
     def compute_augmentation(self, inputs):
         batch_size = tf.shape(inputs)[0]
@@ -66,7 +71,7 @@ class NoiseBank(AugmentationLayer):
             if outputs is None:
                 outputs = out
             else:
-                outputs = tf.concat([outputs, out], axis=0)
+                outputs = tf.concat(values=[outputs, out], concat_dim=0)
         return outputs
 
     def get_config(self):
