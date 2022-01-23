@@ -44,13 +44,17 @@ class NoiseBank(AugmentationLayer):
 
     def build(self, input_shape):
         for file_path in self._noise_bank:
-            noise_sample = load_audio(file_path, self._sample_rate)[:self._num_samples]
+            noise_sample = load_audio(file_path, self._sample_rate)
+
+            assert tf.shape(noise_sample)[0] >= self._num_samples, "Audio file is too short"
+
+            noise_sample = noise_sample[:self._num_samples]
             noise_sample = tf.expand_dims(noise_sample, axis=0)
 
             if self._noises is None:
                 self._noises = noise_sample
             else:
-                self._noises = tf.concat(values=[self._noises, noise_sample], concat_dim=0)
+                self._noises = tf.concat([self._noises, noise_sample], axis=0)
 
     def compute_augmentation(self, inputs):
         batch_size = tf.shape(inputs)[0]
@@ -71,7 +75,7 @@ class NoiseBank(AugmentationLayer):
             if outputs is None:
                 outputs = out
             else:
-                outputs = tf.concat(values=[outputs, out], concat_dim=0)
+                outputs = tf.concat([outputs, out], axis=0)
         return outputs
 
     def get_config(self):
