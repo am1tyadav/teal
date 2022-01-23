@@ -4,7 +4,7 @@ Applies random gain to input audio
 """
 
 import tensorflow as tf
-from teal.augment import AugmentationLayer
+from teal.augment.augment import AugmentationLayer
 
 
 class RandomGain(AugmentationLayer):

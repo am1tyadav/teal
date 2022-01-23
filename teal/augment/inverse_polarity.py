@@ -3,7 +3,7 @@
 Invert the polarity of input audio
 """
 
-from teal.augment import AugmentationLayer
+from teal.augment.augment import AugmentationLayer
 
 
 class InversePolarity(AugmentationLayer):

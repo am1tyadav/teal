@@ -2,7 +2,7 @@ from typing import Any
 import tensorflow as tf
 import numpy as np
 import librosa
-from teal.power_to_db import PowerToDb
+from teal.feature.power_to_db import PowerToDb
 from tests.common import TealTest
 from tests.utils import get_spectrogram_examples
 

@@ -1,7 +1,7 @@
 from typing import Any
 import tensorflow as tf
 import numpy as np
-from teal.spectrogram import Spectrogram
+from teal.feature.spectrogram import Spectrogram
 from tests.utils import from_audio_to_spectrogram, get_audio_examples, N_FFT, HOP_LEN
 from tests.common import TealTest
 

@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from teal.normalize import NormalizeAudio, NormalizeSpectrum
+from teal.feature.normalize import NormalizeAudio, NormalizeSpectrum
 from tests.common import TealTest
 from tests.utils import get_audio_examples, get_spectrogram_examples
 

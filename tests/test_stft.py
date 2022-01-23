@@ -1,7 +1,7 @@
 from typing import Any
 import tensorflow as tf
 import numpy as np
-from teal.stft import STFT
+from teal.feature.stft import STFT
 from tests.utils import get_audio_examples, from_audio_to_stft, N_FFT, HOP_LEN
 from tests.common import TealTest
 

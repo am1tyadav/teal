@@ -34,8 +34,8 @@ N_MELS = 64
 
 log_mel_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
-    teal.PowerToDb()
+    teal.feature.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
+    teal.feature.PowerToDb()
 ])
 
 # Save it as a Keras model or TF saved model
@@ -52,9 +52,9 @@ NUM_SAMPLES = 44100
 
 audio_augmentation_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.InversePolarity(0.5),
-    teal.RandomNoise(0.2),
-    teal.RandomGain(0.5)
+    teal.augment.InversePolarity(0.5),
+    teal.augment.RandomNoise(0.2),
+    teal.augment.RandomGain(0.5)
 ])
 ```
 
