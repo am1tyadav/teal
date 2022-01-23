@@ -15,7 +15,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/am1tyadav/teal.git",
     packages=[
-        "teal"
+        "teal", "teal.augment",
+        "teal.feature"
     ],
     install_requires=[
         "tensorflow>=2"
