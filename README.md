@@ -1,6 +1,6 @@
-# teal
+# Teal
 
-__teal__ is a library of TensorFlow layers written for audio data preprocessing
+__Teal__ is a library of TensorFlow layers written for audio data preprocessing
 
 Easily create TensorFlow models for audio preprocessing and audio data augmentation:
 
@@ -12,7 +12,7 @@ Easily create TensorFlow models for audio preprocessing and audio data augmentat
 
 :heavy_check_mark: Deploy preprocessing logic in production with the saved model
 
-__teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :smile:
+__Teal__ is in very early stage and a _lot_ of work is to be done. Please feel free to reach out if you'd like to help out!! :smile:
 
 ## Getting Started
 
@@ -58,6 +58,8 @@ audio_augmentation_model = tf.keras.models.Sequential([
 ])
 ```
 
+For a detailed example, please take a look at [this notebook](examples/Audio%20Classifier.ipynb)
+
 ## Layers
 
 ### Preprocessing layers
@@ -76,6 +78,6 @@ More layers WIP
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
 * RandomNoise - Apply random noise to audio samples
-* NoiseBank - Apply noise from user given set of audio files - The audio files must be in 16-bit WAV format
+* (WIP) NoiseBank - Apply noise from user given set of audio files - The audio files must be in 16-bit WAV format
 
 More layers WIP

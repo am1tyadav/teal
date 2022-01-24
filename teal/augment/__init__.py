@@ -14,3 +14,4 @@ from teal.augment.inverse_polarity import InversePolarity
 from teal.augment.noise_bank import NoiseBank
 from teal.augment.random_gain import RandomGain
 from teal.augment.random_noise import RandomNoise
+from teal.augment.augment import AugmentationLayer

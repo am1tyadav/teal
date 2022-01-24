@@ -51,6 +51,11 @@ class NoiseBank(AugmentationLayer):
         assert self._samples_len == input_shape[1], "Input shape mismatch"
 
     def compute_augmentation(self, inputs):
+        def _add_noise(example):
+            _example = example[:-1]
+            _index = tf.cast(example[-1], dtype=tf.int64)
+            return _example + self._noise[_index: _index + self._samples_len]
+
         batch_size = tf.shape(inputs)[0]
         starting_sample = tf.random.uniform(
             shape=(batch_size,),
@@ -58,18 +63,9 @@ class NoiseBank(AugmentationLayer):
             maxval=self._duration - self._samples_len,
             dtype=tf.int64
         )
-        outputs = None
-
-        for i in range(0, batch_size):
-            start_index = starting_sample[i]
-            out = self._noise_weight * self._noise[start_index: start_index + self._samples_len]
-            out = out + (1 - self._noise_weight) * inputs[i]
-            out = tf.expand_dims(out, axis=0)
-
-            if outputs is None:
-                outputs = out
-            else:
-                outputs = tf.concat([outputs, out], axis=0)
+        starting_sample = tf.expand_dims(tf.cast(starting_sample, dtype=tf.float32), axis=-1)
+        _examples = tf.concat(values=[inputs, starting_sample], axis=1)
+        outputs = tf.map_fn(_add_noise, _examples)
         return outputs
 
     def get_config(self):

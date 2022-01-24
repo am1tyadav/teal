@@ -6,18 +6,15 @@ with open("README.md", "r") as f:
 
 
 setuptools.setup(
-    name="teal",
+    name="Teal",
     version="0.0.3",
     author="Amit Yadav",
     author_email="amit.yadav.iitr@gmail.com",
-    description="teal - TensorFlow Audio Layers",
+    description="Teal - TensorFlow Audio Layers",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/am1tyadav/teal.git",
-    packages=[
-        "teal", "teal.augment",
-        "teal.feature"
-    ],
+    packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=[
         "tensorflow>=2"
     ],
