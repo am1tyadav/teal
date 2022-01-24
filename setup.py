@@ -16,7 +16,7 @@ setuptools.setup(
     url="https://github.com/am1tyadav/teal.git",
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=[
-        "tensorflow>=2"
+        "tensorflow>=2.5"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

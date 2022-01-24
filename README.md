@@ -24,7 +24,7 @@ Install would be using `pip`:
 
 ```python
 import tensorflow as tf
-import teal
+from teal import  feature
 
 NUM_SAMPLES = 44100
 SAMPLE_RATE = 22050
@@ -34,8 +34,8 @@ N_MELS = 64
 
 log_mel_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.feature.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
-    teal.feature.PowerToDb()
+    feature.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
+    feature.PowerToDb()
 ])
 
 # Save it as a Keras model or TF saved model
@@ -46,15 +46,15 @@ log_mel_model.save("log_mel.h5")
 
 ```python
 import tensorflow as tf
-import teal
+from teal import augment
 
 NUM_SAMPLES = 44100
 
 audio_augmentation_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.augment.InversePolarity(0.5),
-    teal.augment.RandomNoise(0.2),
-    teal.augment.RandomGain(0.5)
+    augment.InversePolarity(0.5),
+    augment.RandomNoise(0.2),
+    augment.RandomGain(0.5)
 ])
 ```
 
@@ -78,6 +78,6 @@ More layers WIP
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
 * RandomNoise - Apply random noise to audio samples
-* (WIP) NoiseBank - Apply noise from user given set of audio files - The audio files must be in 16-bit WAV format
+* NoiseBank - Apply noise from user given 16-bit WAV file
 
 More layers WIP
