@@ -1,8 +1,6 @@
-# Teal
+# Teal - Audio Processing Layers for TensorFlow
 
-__Teal__ is a library of TensorFlow layers written for audio data preprocessing
-
-Easily create TensorFlow models for audio preprocessing and audio data augmentation:
+Create TensorFlow layers and models for audio preprocessing and audio data augmentation:
 
 :heavy_check_mark: No dependency other than TensorFlow
 
@@ -77,7 +75,10 @@ More layers WIP
 
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
-* RandomNoise - Apply random noise to audio samples
+* (T) RandomNoise - Apply random noise to audio samples
 * NoiseBank - Apply noise from user given 16-bit WAV file
+* (T) PitchShift - Randomly shift the pitch of input audio
 
 More layers WIP
+
+(T) = Tests not written yet
