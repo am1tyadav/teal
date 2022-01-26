@@ -75,10 +75,8 @@ More layers WIP
 
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
-* (T) RandomNoise - Apply random noise to audio samples
-* NoiseBank - Apply noise from user given 16-bit WAV file
-* (T) PitchShift - Randomly shift the pitch of input audio
+* RandomNoise - Apply random noise to audio samples _untested_
+* NoiseBank - Apply noise from user given 16-bit WAV file _untested_
+* PitchShift - Randomly shift the pitch of input audio _untested_
 
 More layers WIP
-
-(T) = Tests not written yet
