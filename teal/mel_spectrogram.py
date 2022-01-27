@@ -4,7 +4,7 @@ Compute mel spectrogram of input audio
 """
 
 import tensorflow as tf
-from teal.feature.spectrogram import Spectrogram
+from teal import Spectrogram
 
 
 class MelSpectrogram(Spectrogram):

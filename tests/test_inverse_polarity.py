@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from teal.augment.inverse_polarity import InversePolarity
+from teal import InversePolarity
 from tests.common import TealTest
 from tests.utils import get_audio_examples
 

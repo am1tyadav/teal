@@ -1,7 +1,7 @@
 from typing import Any
 import tensorflow as tf
 import numpy as np
-from teal.augment.random_gain import RandomGain
+from teal import RandomGain
 from tests.utils import get_audio_examples
 from tests.common import TealTest
 

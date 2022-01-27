@@ -5,7 +5,7 @@ Computes power spectrum of input audio
 
 
 import tensorflow as tf
-from teal.feature.stft import STFT
+from teal import STFT
 
 
 class Spectrogram(STFT):

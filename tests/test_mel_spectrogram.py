@@ -1,5 +1,5 @@
 from typing import Any
-from teal.feature.mel_spectrogram import MelSpectrogram
+from teal import MelSpectrogram
 from tests.utils import *
 from tests.common import TealTest
 

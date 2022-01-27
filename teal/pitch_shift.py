@@ -4,7 +4,7 @@ Basic pitch shifter which computes fft, shifts and inverse fft
 """
 
 import tensorflow as tf
-from teal.augment.augment import AugmentationLayer
+from teal import AugmentationLayer
 
 
 class PitchShift(AugmentationLayer):
@@ -41,3 +41,10 @@ class PitchShift(AugmentationLayer):
                 r_fft = tf.concat([zeros, r_fft[_shift:]], axis=0)
             return tf.signal.irfft(r_fft)
         return tf.map_fn(_pitch_shift, inputs)
+
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "_shift": self._shift
+        })
+        return config

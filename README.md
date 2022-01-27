@@ -22,7 +22,7 @@ Install would be using `pip`:
 
 ```python
 import tensorflow as tf
-from teal import  feature
+import teal
 
 NUM_SAMPLES = 44100
 SAMPLE_RATE = 22050
@@ -32,8 +32,8 @@ N_MELS = 64
 
 log_mel_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    feature.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
-    feature.PowerToDb()
+    teal.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
+    teal.PowerToDb()
 ])
 
 # Save it as a Keras model or TF saved model
@@ -44,15 +44,15 @@ log_mel_model.save("log_mel.h5")
 
 ```python
 import tensorflow as tf
-from teal import augment
+import teal
 
 NUM_SAMPLES = 44100
 
 audio_augmentation_model = tf.keras.models.Sequential([
     tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    augment.InversePolarity(0.5),
-    augment.RandomNoise(0.2),
-    augment.RandomGain(0.5)
+    teal.InversePolarity(0.5),
+    teal.RandomNoise(0.2),
+    teal.RandomGain(0.5)
 ])
 ```
 
@@ -71,12 +71,18 @@ For a detailed example, please take a look at [this notebook](examples/Audio%20C
 
 More layers WIP
 
+### Postprocessing Layers
+
+* DbToPower - Scales the db magnitude to power spectrum - _untested_
+* MelToSTFT - Convert mel power spectrogram to STFT magnitude - _WIP_
+* GriffinLim - Convert STFT magnitude to audio using Griffin Lim algorithm - _WIP_
+
 ### Data augmentation layers
 
 * InversePolarity - Inverts polarity of input audio
 * RandomGain - Apply different random gain to different examples in a batch
-* RandomNoise - Apply random noise to audio samples _untested_
-* NoiseBank - Apply noise from user given 16-bit WAV file _untested_
-* PitchShift - Randomly shift the pitch of input audio _untested_
+* RandomNoise - Apply random noise to audio samples - _untested_
+* NoiseBank - Apply noise from user given 16-bit WAV file - _untested_
+* PitchShift - Randomly shift the pitch of input audio - _untested_
 
 More layers WIP

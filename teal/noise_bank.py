@@ -4,7 +4,7 @@ Applies noise from noise bank to input audio
 """
 
 import tensorflow as tf
-from teal.augment.augment import AugmentationLayer
+from teal import AugmentationLayer
 from teal.utils import load_audio
 
 
