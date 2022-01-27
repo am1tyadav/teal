@@ -7,8 +7,9 @@ written to be used with audio data
 from teal.augment import AugmentationLayer
 # Processing Layers
 from teal.stft import STFT
+from teal.stft_to import STFTToSpectrogram, STFTToPhase
 from teal.spectrogram import Spectrogram
-from teal.mel_spectrogram import MelSpectrogram
+from teal.mel_spectrogram import MelSpectrogram, SpectrogramToMel
 from teal.power_to_db import PowerToDb
 from teal.db_to_power import DbToPower
 # Augmentation Layers

@@ -63,8 +63,11 @@ For a detailed example, please take a look at [this notebook](examples/Audio%20C
 ### Preprocessing layers
 
 * STFT - Computes Short Time Fourier Transform
-* Spectrogram - Computes power spectrum
-* MelSpectrogram - Computes mel spectrogram
+* STFTToSpectrogram - Computes power spectrum from STFT - _untested_
+* STFTToPhase - Computes phase from STFT - _untested_
+* Spectrogram - Computes power spectrum from audio
+* MelSpectrogram - Computes mel spectrogram from audio
+* SpectrogramToMel - Computes mel spectrogram from power spectrum - _untested_
 * PowerToDb - Scales the power spectrum to db range
 * NormalizeAudio - Scale audio to a range of (-1, 1)
 * NormalizeSpectrum - Scale spectrogram to a range of (-1, 1)
