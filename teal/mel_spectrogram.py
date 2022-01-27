@@ -65,7 +65,7 @@ class MelSpectrogram(Spectrogram):
 
 
 class SpectrogramToMel(layers.Layer):
-    """PowerSpectrumToMel
+    """SpectrogramToMel
 
     Compute mel spectrogram of input power spectrum
     """
@@ -87,7 +87,7 @@ class SpectrogramToMel(layers.Layer):
 
     def build(self, input_shape):
         self._lin_to_mel_matrix = get_mel_filter_bank(
-            self._sample_rate, self.n_fft, self._n_mels
+            self._sample_rate, self._n_fft, self._n_mels
         )
 
     def call(self, inputs, *args, **kwargs):

@@ -69,23 +69,20 @@ For a detailed example, please take a look at [this notebook](examples/Audio%20C
 * MelSpectrogram - Computes mel spectrogram from audio
 * SpectrogramToMel - Computes mel spectrogram from power spectrum - _untested_
 * PowerToDb - Scales the power spectrum to db range
-* NormalizeAudio - Scale audio to a range of (-1, 1)
-* NormalizeSpectrum - Scale spectrogram to a range of (-1, 1)
-
-More layers WIP
+* NormalizeAudio - Scales audio to a range of (-1, 1)
+* NormalizeSpectrum - Scales spectrogram to a range of (-1, 1)
 
 ### Postprocessing Layers
 
 * DbToPower - Scales the db magnitude to power spectrum - _untested_
-* MelToSTFT - Convert mel power spectrogram to STFT magnitude - _WIP_
-* GriffinLim - Convert STFT magnitude to audio using Griffin Lim algorithm - _WIP_
+* MelToSTFT - Converts mel power spectrogram to STFT magnitude - _WIP_
+* GriffinLim - Converts STFT magnitude to audio using Griffin Lim algorithm - _WIP_
 
 ### Data augmentation layers
 
 * InversePolarity - Inverts polarity of input audio
-* RandomGain - Apply different random gain to different examples in a batch
-* RandomNoise - Apply random noise to audio samples - _untested_
-* NoiseBank - Apply noise from user given 16-bit WAV file - _untested_
-* PitchShift - Randomly shift the pitch of input audio - _untested_
-
-More layers WIP
+* RandomGain - Applies different random gain to different examples in a batch
+* RandomNoise - Applies random noise to audio samples - _untested_
+* NoiseBank - Applies noise from user given 16-bit WAV file - _untested_
+* PitchShift - Applies random shift to the pitch of input audio - _untested_
+* Reverb - _WIP_
