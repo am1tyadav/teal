@@ -18,7 +18,7 @@ Install would be using `pip`:
 
 `pip install --user git+https://github.com/am1tyadav/teal.git`
 
-### Preprocessing Model - Log Mel Spectrogram
+### Example: Log Mel Spectrogram Model
 
 ```python
 import tensorflow as tf
@@ -31,8 +31,8 @@ HOP_LEN = 512
 N_MELS = 64
 
 log_mel_model = tf.keras.models.Sequential([
-    tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
-    teal.MelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
+    tf.keras.layers.Input(shape=(NUM_SAMPLES,)),
+    teal.AudioToMelSpectrogram(SAMPLE_RATE, N_FFT, HOP_LEN, N_MELS),
     teal.PowerToDb()
 ])
 
@@ -40,49 +40,49 @@ log_mel_model = tf.keras.models.Sequential([
 log_mel_model.save("log_mel.h5")
 ```
 
-### Audio Data Augmentation Model
+### Example: Audio Data Augmentation Model
 
 ```python
+import teal.augment
 import tensorflow as tf
 import teal
 
 NUM_SAMPLES = 44100
 
 audio_augmentation_model = tf.keras.models.Sequential([
-    tf.keras.layers.Input(shape=(NUM_SAMPLES, )),
+    tf.keras.layers.Input(shape=(NUM_SAMPLES,)),
     teal.InversePolarity(0.5),
     teal.RandomNoise(0.2),
     teal.RandomGain(0.5)
 ])
 ```
 
-For a detailed example, please take a look at [this notebook](examples/Audio%20Classifier.ipynb)
+### Example: Audio Classification with TensorFlow and Teal
+
+[Audio Classification with TensorFlow and Teal](examples/Audio%20Classifier.ipynb)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/am1tyadav/teal/blob/main/examples/Audio%20Classifier.ipynb)
 
 ## Layers
 
-### Preprocessing layers
+### Transformation Layers
 
-* STFT - Computes Short Time Fourier Transform
-* STFTToSpectrogram - Computes power spectrum from STFT - _untested_
-* STFTToPhase - Computes phase from STFT - _untested_
-* Spectrogram - Computes power spectrum from audio
-* MelSpectrogram - Computes mel spectrogram from audio
-* SpectrogramToMel - Computes mel spectrogram from power spectrum - _untested_
-* PowerToDb - Scales the power spectrum to db range
-* NormalizeAudio - Scales audio to a range of (-1, 1)
-* NormalizeSpectrum - Scales spectrogram to a range of (-1, 1)
+* AudioToSTFT
+* AudioToSpectrogram
+* AudioToMelSpectrogram
+* STFTToSpecAndPhase
+* STFTToSpectrogram
+* STFTToPhase
+* SpectrogramToMelSpec
+* PowerToDb
+* DbToPower
+* NormalizeAudio
+* NormalizeSpectrum
 
-### Postprocessing Layers
+### Data Augmentation Layers
 
-* DbToPower - Scales the db magnitude to power spectrum - _untested_
-* MelToSTFT - Converts mel power spectrogram to STFT magnitude - _WIP_
-* GriffinLim - Converts STFT magnitude to audio using Griffin Lim algorithm - _WIP_
-
-### Data augmentation layers
-
-* InversePolarity - Inverts polarity of input audio
-* RandomGain - Applies different random gain to different examples in a batch
-* RandomNoise - Applies random noise to audio samples - _untested_
-* NoiseBank - Applies noise from user given 16-bit WAV file - _untested_
-* PitchShift - Applies random shift to the pitch of input audio - _untested_
-* Reverb - _WIP_
+* InversePolarity
+* NoiseBank
+* RandomGain
+* RandomNoise
+* PitchShift

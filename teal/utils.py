@@ -27,3 +27,13 @@ def load_audio(file_path: str, expected_sr: int) -> tf.Tensor:
 
     assert sample_rate == expected_sr
     return audio
+
+
+def get_mel_filter_bank(sample_rate: int, n_fft: int, n_mels: int) -> tf.Tensor:
+    return tf.signal.linear_to_mel_weight_matrix(
+        num_mel_bins=n_mels,
+        num_spectrogram_bins=n_fft // 2 + 1,
+        sample_rate=sample_rate,
+        lower_edge_hertz=0,
+        upper_edge_hertz=sample_rate / 2,
+    )

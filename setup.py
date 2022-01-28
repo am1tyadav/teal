@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="Teal",
-    version="0.0.3",
+    version="0.0.4",
     author="Amit Yadav",
     author_email="amit.yadav.iitr@gmail.com",
     description="Teal - TensorFlow Audio Layers",

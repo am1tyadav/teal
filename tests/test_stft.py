@@ -1,7 +1,7 @@
 from typing import Any
 import tensorflow as tf
 import numpy as np
-from teal import STFT
+from teal import AudioToSTFT
 from tests.utils import get_audio_examples, from_audio_to_stft, N_FFT, HOP_LEN
 from tests.common import TealTest
 
@@ -9,7 +9,7 @@ from tests.common import TealTest
 class TestSTFT(TealTest.TealTestCase):
     def setUp(self):
         self.setup_layer(
-            layer=STFT(N_FFT, HOP_LEN),
+            layer=AudioToSTFT(N_FFT, HOP_LEN),
             single_example=get_audio_examples(1),
             batch_example=get_audio_examples(3),
             param_names=["_n_fft", "_hop_length"]
