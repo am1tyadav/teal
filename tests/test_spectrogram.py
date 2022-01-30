@@ -12,7 +12,7 @@ class TestSpectrogram(TealTest.TealTestCase):
         self.setup_layer(
             layer=AudioToSpectrogram(N_FFT, HOP_LEN, power=self.power),
             single_example=get_audio_examples(1),
-            batch_example=get_audio_examples(3)
+            batch_example=get_audio_examples(3),
         )
 
     def value_assertion(self, a: Any, b: Any):

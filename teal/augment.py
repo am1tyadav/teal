@@ -15,13 +15,11 @@ class AugmentationLayer(layers.Layer):
 
     Base class to subclass data augmentation layers from
     """
-    def __init__(self,
-                 chance: float,
-                 *args,
-                 **kwargs):
+
+    def __init__(self, chance: float, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        assert 0. < chance <= 1.
+        assert 0.0 < chance <= 1.0
         self._chance = chance
 
     @abstractmethod
@@ -38,11 +36,10 @@ class AugmentationLayer(layers.Layer):
     def call(self, inputs, *args, **kwargs):
         training = kwargs.get("training")
 
-        if tf.random.uniform(
-                shape=(),
-                dtype=tf.float32,
-                minval=0.,
-                maxval=1.) < self._chance:
+        if (
+            tf.random.uniform(shape=(), dtype=tf.float32, minval=0.0, maxval=1.0)
+            < self._chance
+        ):
             augmented = self.compute_augmentation(inputs)
         else:
             augmented = inputs
@@ -51,9 +48,7 @@ class AugmentationLayer(layers.Layer):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_chance": self._chance
-        })
+        config.update({"_chance": self._chance})
         return config
 
 
@@ -67,7 +62,7 @@ class InversePolarity(AugmentationLayer):
         super().__init__(chance=chance, *args, **kwargs)
 
     def compute_augmentation(self, inputs):
-        return inputs * -1.
+        return inputs * -1.0
 
 
 class NoiseBank(AugmentationLayer):
@@ -75,14 +70,17 @@ class NoiseBank(AugmentationLayer):
 
     Applies noise from noise bank to input audio
     """
-    def __init__(self,
-                 chance: float,
-                 noise_source: str,
-                 *args,
-                 samples_len: int = 66150,
-                 noise_weight: float = 0.2,
-                 sample_rate: int = 22050,
-                 **kwargs):
+
+    def __init__(
+        self,
+        chance: float,
+        noise_source: str,
+        *args,
+        samples_len: int = 66150,
+        noise_weight: float = 0.2,
+        sample_rate: int = 22050,
+        **kwargs
+    ):
         """Apply randomly selected noise from a given file to input tensor
 
         User given wav files are loaded when the layer is built to be applied
@@ -116,28 +114,32 @@ class NoiseBank(AugmentationLayer):
         def _add_noise(example):
             _example = example[:-1]
             _index = tf.cast(example[-1], dtype=tf.int64)
-            return _example + self._noise[_index: _index + self._samples_len]
+            return _example + self._noise[_index : _index + self._samples_len]
 
         batch_size = tf.shape(inputs)[0]
         starting_sample = tf.random.uniform(
             shape=(batch_size,),
             minval=0,
             maxval=self._duration - self._samples_len,
-            dtype=tf.int64
+            dtype=tf.int64,
         )
-        starting_sample = tf.expand_dims(tf.cast(starting_sample, dtype=tf.float32), axis=-1)
+        starting_sample = tf.expand_dims(
+            tf.cast(starting_sample, dtype=tf.float32), axis=-1
+        )
         _examples = tf.concat(values=[inputs, starting_sample], axis=1)
         outputs = tf.map_fn(_add_noise, _examples)
         return outputs
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_samples_len": self._samples_len,
-            "_noise_source": self._noise_source,
-            "_noise_weight": self._noise_weight,
-            "_sample_rate": self._sample_rate
-        })
+        config.update(
+            {
+                "_samples_len": self._samples_len,
+                "_noise_source": self._noise_source,
+                "_noise_weight": self._noise_weight,
+                "_sample_rate": self._sample_rate,
+            }
+        )
         return config
 
 
@@ -146,12 +148,15 @@ class RandomGain(AugmentationLayer):
 
     Applies random gain to input audio
     """
-    def __init__(self,
-                 chance: float,
-                 *args,
-                 min_factor: float = 0.5,
-                 max_factor: float = 0.9,
-                 **kwargs):
+
+    def __init__(
+        self,
+        chance: float,
+        *args,
+        min_factor: float = 0.5,
+        max_factor: float = 0.9,
+        **kwargs
+    ):
         super().__init__(chance, *args, **kwargs)
 
         self._min_factor = min_factor
@@ -163,16 +168,15 @@ class RandomGain(AugmentationLayer):
             (batch_size,),
             minval=self._min_factor,
             maxval=self._max_factor,
-            dtype=inputs.dtype
+            dtype=inputs.dtype,
         )
         return tf.math.multiply(inputs, tf.expand_dims(gain_factors, axis=1))
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_min_factor": self._min_factor,
-            "_max_factor": self._max_factor
-        })
+        config.update(
+            {"_min_factor": self._min_factor, "_max_factor": self._max_factor}
+        )
         return config
 
 
@@ -181,11 +185,8 @@ class RandomNoise(AugmentationLayer):
 
     Applies random noise to input audio
     """
-    def __init__(self,
-                 chance: float,
-                 *args,
-                 max_noise: float = 0.01,
-                 **kwargs):
+
+    def __init__(self, chance: float, *args, max_noise: float = 0.01, **kwargs):
         super().__init__(chance, *args, **kwargs)
 
         self._max_noise = max_noise
@@ -193,17 +194,19 @@ class RandomNoise(AugmentationLayer):
     def compute_augmentation(self, inputs):
         random_noise = tf.random.uniform(
             tf.shape(inputs),
-            minval=-1. * self._max_noise,
+            minval=-1.0 * self._max_noise,
             maxval=self._max_noise,
-            dtype=inputs.dtype
+            dtype=inputs.dtype,
         )
         return inputs + random_noise
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_max_noise": self._max_noise,
-        })
+        config.update(
+            {
+                "_max_noise": self._max_noise,
+            }
+        )
         return config
 
 
@@ -213,11 +216,7 @@ class PitchShift(AugmentationLayer):
     Basic pitch shifter which computes fft, shifts and ifft
     """
 
-    def __init__(self,
-                 chance: float,
-                 shift: int,
-                 *args,
-                 **kwargs):
+    def __init__(self, chance: float, shift: int, *args, **kwargs):
         super().__init__(chance=chance, *args, **kwargs)
 
         self._shift = shift
@@ -225,10 +224,7 @@ class PitchShift(AugmentationLayer):
     def compute_augmentation(self, inputs):
         def _pitch_shift(single_audio):
             _shift = tf.random.uniform(
-                shape=(),
-                minval=-self._shift,
-                maxval=self._shift,
-                dtype=tf.int64
+                shape=(), minval=-self._shift, maxval=self._shift, dtype=tf.int64
             )
 
             r_fft = tf.signal.rfft(single_audio)
@@ -240,11 +236,10 @@ class PitchShift(AugmentationLayer):
             else:
                 r_fft = tf.concat([zeros, r_fft[_shift:]], axis=0)
             return tf.signal.irfft(r_fft)
+
         return tf.map_fn(_pitch_shift, inputs)
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_shift": self._shift
-        })
+        config.update({"_shift": self._shift})
         return config

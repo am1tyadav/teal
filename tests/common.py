@@ -7,11 +7,13 @@ from tensorflow.keras.layers import Layer
 
 class TealTest:
     class TealTestCase(tf.test.TestCase):
-        def setup_layer(self,
-                        layer: Layer,
-                        single_example: tf.Tensor,
-                        batch_example: tf.Tensor,
-                        param_names: List[str] = None):
+        def setup_layer(
+            self,
+            layer: Layer,
+            single_example: tf.Tensor,
+            batch_example: tf.Tensor,
+            param_names: List[str] = None,
+        ):
             self.layer = layer
             self.config = self.layer.get_config()
             self.param_names = param_names if param_names is not None else []

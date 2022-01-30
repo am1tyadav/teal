@@ -8,7 +8,7 @@ from tensorflow.keras import layers
 
 
 class STFTToSpecAndPhase(layers.Layer):
-    def __init__(self, *args, power: float = 2., **kwargs):
+    def __init__(self, *args, power: float = 2.0, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._power = power
@@ -20,9 +20,7 @@ class STFTToSpecAndPhase(layers.Layer):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_power": self._power
-        })
+        config.update({"_power": self._power})
         return config
 
 
@@ -31,7 +29,8 @@ class STFTToSpectrogram(STFTToSpecAndPhase):
 
     Converts STFT to mag
     """
-    def __init__(self, *args, power: float = 2., **kwargs):
+
+    def __init__(self, *args, power: float = 2.0, **kwargs):
         super().__init__(*args, power=power, **kwargs)
 
     def call(self, inputs, *args, **kwargs):
@@ -44,7 +43,8 @@ class STFTToPhase(STFTToSpecAndPhase):
 
     Converts STFT to Phase
     """
-    def __init__(self, *args, power: float = 2., **kwargs):
+
+    def __init__(self, *args, power: float = 2.0, **kwargs):
         super().__init__(*args, power=power, **kwargs)
 
     def call(self, inputs, *args, **kwargs):

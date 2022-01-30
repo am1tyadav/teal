@@ -20,7 +20,7 @@ def get_audio_examples(num_examples: int = 2):
     def _get_chunk(y):
         start_sample = random.randint(0, DURATION - CHUNK_LENGTH) * SAMPLE_RATE
         end_sample = start_sample + NUM_SAMPLES
-        return y[start_sample: end_sample]
+        return y[start_sample:end_sample]
 
     audio = load_audio(file_path=FILE_PATH, expected_sr=SAMPLE_RATE)
     audio = audio.numpy()
@@ -41,8 +41,7 @@ def from_audio_to_stft(inputs: tf.Tensor):
 
     for i in range(0, _num_examples):
         _stft = librosa.stft(
-            _numpy_examples[i], n_fft=N_FFT,
-            hop_length=HOP_LEN, center=False
+            _numpy_examples[i], n_fft=N_FFT, hop_length=HOP_LEN, center=False
         )
         _stft = np.expand_dims(np.transpose(_stft), axis=0)
         _expected.append(_stft)
@@ -63,8 +62,10 @@ def from_audio_to_spectrogram(inputs: tf.Tensor, power: float):
     for i in range(0, _num_examples):
         _spec, _ = librosa.core.spectrum._spectrogram(
             y=_numpy_examples[i],
-            n_fft=N_FFT, hop_length=HOP_LEN,
-            power=power, center=False
+            n_fft=N_FFT,
+            hop_length=HOP_LEN,
+            power=power,
+            center=False,
         )
         _spec = np.expand_dims(np.transpose(_spec), axis=0)
         _expected.append(_spec)
@@ -72,7 +73,7 @@ def from_audio_to_spectrogram(inputs: tf.Tensor, power: float):
     return np.concatenate(_expected, axis=0)
 
 
-def get_spectrogram_examples(num_examples: int = 2, power: float = 2.):
+def get_spectrogram_examples(num_examples: int = 2, power: float = 2.0):
     _examples = get_audio_examples(num_examples)
     return tf.constant(from_audio_to_spectrogram(_examples, power=power))
 
@@ -82,9 +83,13 @@ def from_audio_to_mel_spectrogram(inputs: tf.Tensor, power: float):
 
     _specs = from_audio_to_spectrogram(inputs, power)
     _filter_bank = librosa.filters.mel(
-        sr=SAMPLE_RATE, n_mels=N_MELS, n_fft=N_FFT,
-        norm=None, fmin=0, fmax=SAMPLE_RATE/2,
-        htk=True
+        sr=SAMPLE_RATE,
+        n_mels=N_MELS,
+        n_fft=N_FFT,
+        norm=None,
+        fmin=0,
+        fmax=SAMPLE_RATE / 2,
+        htk=True,
     )
     _filter_bank = np.transpose(_filter_bank)
 

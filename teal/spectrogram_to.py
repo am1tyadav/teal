@@ -14,14 +14,7 @@ class SpectrogramToMelSpec(layers.Layer):
     Compute mel spectrogram of input power spectrum
     """
 
-    def __init__(
-            self,
-            sample_rate: int,
-            n_fft: int,
-            n_mels: int,
-            *args,
-            **kwargs
-    ):
+    def __init__(self, sample_rate: int, n_fft: int, n_mels: int, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._sample_rate = sample_rate
@@ -39,9 +32,11 @@ class SpectrogramToMelSpec(layers.Layer):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_sample_rate": self._sample_rate,
-            "_n_fft": self._n_fft,
-            "_n_mels": self._n_mels
-        })
+        config.update(
+            {
+                "_sample_rate": self._sample_rate,
+                "_n_fft": self._n_fft,
+                "_n_mels": self._n_mels,
+            }
+        )
         return config

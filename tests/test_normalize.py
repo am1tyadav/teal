@@ -11,7 +11,7 @@ class TestNormalizeAudio(TealTest.TealTestCase):
             NormalizeAudio(),
             single_example=get_audio_examples(1),
             batch_example=get_audio_examples(3),
-            param_names=["_axes", "_expand", "_epsilon"]
+            param_names=["_axes", "_expand", "_epsilon"],
         )
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:
@@ -29,7 +29,7 @@ class TestNormalizeSpectrum(TealTest.TealTestCase):
             layer=NormalizeSpectrum(),
             single_example=get_spectrogram_examples(1, self.power),
             batch_example=get_spectrogram_examples(3, self.power),
-            param_names=["_axes", "_expand", "_epsilon"]
+            param_names=["_axes", "_expand", "_epsilon"],
         )
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:

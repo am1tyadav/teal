@@ -8,14 +8,14 @@ from tests.utils import get_audio_examples
 class TestInversePolarity(TealTest.TealTestCase):
     def setUp(self):
         self.setup_layer(
-            InversePolarity(1.),
+            InversePolarity(1.0),
             single_example=get_audio_examples(1),
             batch_example=get_audio_examples(3),
         )
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:
         _numpy_examples = inputs.numpy()
-        return -1. * _numpy_examples
+        return -1.0 * _numpy_examples
 
     def test_single_example(self):
         _expected = self.alternate_logic(self.single_example)

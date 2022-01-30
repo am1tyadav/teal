@@ -13,22 +13,17 @@ class DbToPower(layers.Layer):
     Scales input db magnitude to power
     """
 
-    def __init__(self,
-                 *args,
-                 ref: float = 1.,
-                 **kwargs):
+    def __init__(self, *args, ref: float = 1.0, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._ref = ref
 
     def call(self, inputs, *args, **kwargs):
-        _scaled = inputs / 10.
-        _pow = tf.pow(10., _scaled)
+        _scaled = inputs / 10.0
+        _pow = tf.pow(10.0, _scaled)
         return self._ref * _pow
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_ref": self._ref
-        })
+        config.update({"_ref": self._ref})
         return config

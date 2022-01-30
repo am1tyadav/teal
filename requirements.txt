@@ -1,4 +1,4 @@
 tensorflow>=2.5
 numpy
 librosa
-pylint
+black

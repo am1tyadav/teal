@@ -15,12 +15,10 @@ class Normalize(layers.Layer):
 
     The input tensor can be of rank 2 or 3
     """
-    def __init__(self,
-                 axes: Any,
-                 *args,
-                 expand: int = 1,
-                 epsilon: float = 1e-10,
-                 **kwargs):
+
+    def __init__(
+        self, axes: Any, *args, expand: int = 1, epsilon: float = 1e-10, **kwargs
+    ):
         super().__init__(*args, **kwargs)
 
         self._axes = axes
@@ -36,23 +34,21 @@ class Normalize(layers.Layer):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_axes": self._axes,
-            "_expand": self._expand,
-            "_epsilon": self._epsilon
-        })
+        config.update(
+            {"_axes": self._axes, "_expand": self._expand, "_epsilon": self._epsilon}
+        )
         return config
 
 
 class NormalizeAudio(Normalize):
-    """Normalizes input tensor of rank 2 to a range of (-1, 1)
-    """
+    """Normalizes input tensor of rank 2 to a range of (-1, 1)"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(1, *args, expand=1, **kwargs)
 
 
 class NormalizeSpectrum(Normalize):
-    """Normalizes input tensor of rank 3 to a range of (-1, 1)
-    """
+    """Normalizes input tensor of rank 3 to a range of (-1, 1)"""
+
     def __init__(self, *args, **kwargs):
         super().__init__((1, 2), *args, expand=2, **kwargs)

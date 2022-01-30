@@ -13,10 +13,8 @@ class AudioToSTFT(layers.Layer):
 
     Computes short time fourier transform on input audio
     """
-    def __init__(self,
-                 n_fft: int,
-                 hop_length: int,
-                 *args, **kwargs):
+
+    def __init__(self, n_fft: int, hop_length: int, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._n_fft = n_fft
@@ -24,17 +22,17 @@ class AudioToSTFT(layers.Layer):
 
     def call(self, inputs, *args, **kwargs):
         return tf.signal.stft(
-            inputs,
-            frame_length=self._n_fft,
-            frame_step=self._hop_length
+            inputs, frame_length=self._n_fft, frame_step=self._hop_length
         )
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_n_fft": self._n_fft,
-            "_hop_length": self._hop_length,
-        })
+        config.update(
+            {
+                "_n_fft": self._n_fft,
+                "_hop_length": self._hop_length,
+            }
+        )
         return config
 
 
@@ -43,19 +41,11 @@ class AudioToSpectrogram(AudioToSTFT):
 
     Computes power spectrum of input audio
     """
+
     def __init__(
-            self,
-            n_fft: int,
-            hop_length: int,
-            *args,
-            power: float = 2.,
-            **kwargs
+        self, n_fft: int, hop_length: int, *args, power: float = 2.0, **kwargs
     ):
-        super().__init__(
-            n_fft=n_fft,
-            hop_length=hop_length,
-            *args, **kwargs
-        )
+        super().__init__(n_fft=n_fft, hop_length=hop_length, *args, **kwargs)
 
         self._power = power
 
@@ -65,9 +55,7 @@ class AudioToSpectrogram(AudioToSTFT):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_power": self._power
-        })
+        config.update({"_power": self._power})
         return config
 
 
@@ -78,22 +66,16 @@ class AudioToMelSpectrogram(AudioToSpectrogram):
     """
 
     def __init__(
-            self,
-            sample_rate: int,
-            n_fft: int,
-            hop_length: int,
-            n_mels: int,
-            *args,
-            power: float = 2.,
-            **kwargs
+        self,
+        sample_rate: int,
+        n_fft: int,
+        hop_length: int,
+        n_mels: int,
+        *args,
+        power: float = 2.0,
+        **kwargs
     ):
-        super().__init__(
-            n_fft,
-            hop_length,
-            *args,
-            power=power,
-            **kwargs
-        )
+        super().__init__(n_fft, hop_length, *args, power=power, **kwargs)
 
         self._sample_rate = sample_rate
         self._n_mels = n_mels
@@ -110,8 +92,5 @@ class AudioToMelSpectrogram(AudioToSpectrogram):
 
     def get_config(self):
         config = super().get_config()
-        config.update({
-            "_sample_rate": self._sample_rate,
-            "_n_mels": self._n_mels
-        })
+        config.update({"_sample_rate": self._sample_rate, "_n_mels": self._n_mels})
         return config

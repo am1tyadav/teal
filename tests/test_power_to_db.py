@@ -9,7 +9,7 @@ from tests.utils import get_spectrogram_examples
 
 class TestPowerToDb(TealTest.TealTestCase):
     def value_assertion(self, a: Any, b: Any):
-        return self.assertAllClose(a, b, atol=10.)
+        return self.assertAllClose(a, b, atol=10.0)
 
     def setUp(self):
         self.power = 2
@@ -17,7 +17,7 @@ class TestPowerToDb(TealTest.TealTestCase):
             layer=PowerToDb(),
             single_example=get_spectrogram_examples(1, self.power),
             batch_example=get_spectrogram_examples(3, self.power),
-            param_names=["_top_db", "_epsilon"]
+            param_names=["_top_db", "_epsilon"],
         )
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:

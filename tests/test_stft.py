@@ -12,14 +12,12 @@ class TestSTFT(TealTest.TealTestCase):
             layer=AudioToSTFT(N_FFT, HOP_LEN),
             single_example=get_audio_examples(1),
             batch_example=get_audio_examples(3),
-            param_names=["_n_fft", "_hop_length"]
+            param_names=["_n_fft", "_hop_length"],
         )
 
     def value_assertion(self, a: Any, b: Any):
         return self.assertAllClose(
-            a, b,
-            atol=np.complex(0.1, 0.1),
-            rtol=np.complex(0.01, 0.01)
+            a, b, atol=np.complex(0.1, 0.1), rtol=np.complex(0.01, 0.01)
         )
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:

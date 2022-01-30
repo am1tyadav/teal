@@ -10,9 +10,9 @@ class TestRandomGain(TealTest.TealTestCase):
     def setUp(self):
         self.power = 2
         self.setup_layer(
-            layer=RandomGain(1.),
+            layer=RandomGain(1.0),
             single_example=get_audio_examples(1),
-            batch_example=get_audio_examples(3)
+            batch_example=get_audio_examples(3),
         )
 
     def value_assertion(self, a: Any, b: Any):
