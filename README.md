@@ -43,7 +43,6 @@ log_mel_model.save("log_mel.h5")
 ### Example: Audio Data Augmentation Model
 
 ```python
-import teal.augment
 import tensorflow as tf
 import teal
 
