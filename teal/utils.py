@@ -5,6 +5,7 @@ Common utilities for teal
 
 import os
 import tensorflow as tf
+from tensorflow.keras.layers import Layer
 
 
 def load_audio(file_path: str, expected_sr: int) -> tf.Tensor:

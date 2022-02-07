@@ -1,19 +1,9 @@
-"""MelSpectrogram
-
-Compute mel spectrogram of input audio
-"""
-
 import tensorflow as tf
 from tensorflow.keras import layers
 from teal.utils import get_mel_filter_bank
 
 
-class SpectrogramToMelSpec(layers.Layer):
-    """SpectrogramToMel
-
-    Compute mel spectrogram of input power spectrum
-    """
-
+class MelSpecToSpectrogram(layers.Layer):
     def __init__(self, sample_rate: int, n_fft: int, n_mels: int, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -28,7 +18,7 @@ class SpectrogramToMelSpec(layers.Layer):
         )
 
     def call(self, inputs, *args, **kwargs):
-        return tf.matmul(inputs, self._lin_to_mel_matrix)
+        return tf.matmul(inputs, tf.transpose(self._lin_to_mel_matrix))
 
     def get_config(self):
         config = super().get_config()
@@ -40,12 +30,3 @@ class SpectrogramToMelSpec(layers.Layer):
             }
         )
         return config
-
-
-class SpecAndPhaseToSTFT(layers.Layer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def call(self, inputs, *args, **kwargs):
-        _spec, _phase = inputs
-        return tf.complex(_spec, _phase)

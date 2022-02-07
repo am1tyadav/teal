@@ -58,9 +58,9 @@ audio_augmentation_model = tf.keras.models.Sequential([
 
 ### Example: Audio Classification with TensorFlow and Teal
 
-[Audio Classification with TensorFlow and Teal](examples/Audio_Classification_with_TensorFlow_and_Teal.ipynb)
+[Audio Classification with TensorFlow and Teal](examples/Audio_Classification_with_TensorFlow.ipynb)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/am1tyadav/teal/blob/main/examples/Audio_Classification_with_TensorFlow_and_Teal.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/am1tyadav/teal/blob/main/examples/Audio_Classification_with_TensorFlow.ipynb)
 
 ## Layers
 
