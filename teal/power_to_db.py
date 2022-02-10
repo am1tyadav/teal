@@ -13,7 +13,7 @@ class PowerToDb(layers.Layer):
     Scales input spectrum power to db
     """
 
-    def __init__(self, *args, top_db: float = 80.0, epsilon: float = 1e-10, **kwargs):
+    def __init__(self, *args, top_db: float = 110.0, epsilon: float = 1e-10, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._top_db = top_db

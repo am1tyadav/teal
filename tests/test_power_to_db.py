@@ -22,7 +22,7 @@ class TestPowerToDb(TealTest.TealTestCase):
 
     def alternate_logic(self, inputs: tf.Tensor) -> np.ndarray:
         _numpy_examples = inputs.numpy()
-        return librosa.power_to_db(_numpy_examples)
+        return librosa.power_to_db(_numpy_examples, top_db=110.)
 
 
 if __name__ == "__main__":
