@@ -14,7 +14,12 @@ from teal.augment import (
 )
 
 # Transformation
-from teal.audio_to import AudioToSTFT, AudioToSpectrogram, AudioToMelSpectrogram
+from teal.audio_to import (
+    AudioToSTFT,
+    AudioToSpectrogram,
+    AudioToMelSpectrogram,
+    AudioToMelLike,
+)
 from teal.stft_to import STFTToSpecAndPhase, STFTToSpectrogram, STFTToPhase, STFTToAudio
 from teal.power_to_db import PowerToDb
 from teal.db_to_power import DbToPower

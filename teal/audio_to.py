@@ -94,3 +94,29 @@ class AudioToMelSpectrogram(AudioToSpectrogram):
         config = super().get_config()
         config.update({"_sample_rate": self._sample_rate, "_n_mels": self._n_mels})
         return config
+
+
+class AudioToMelLike(AudioToSpectrogram):
+    def __init__(
+        self,
+        n_fft: int,
+        hop_length: int,
+        n_mels: int,
+        *args,
+        power: float = 2.0,
+        **kwargs
+    ):
+        super().__init__(n_fft, hop_length, *args, power=power, **kwargs)
+
+        num_filters = n_fft // 2 + 1
+
+        self._filters = tf.Variable(
+            initial_value=tf.random_normal_initializer()(
+                shape=(num_filters, n_mels), dtype="float32"
+            ),
+            trainable=True,
+        )
+
+    def call(self, inputs, *args, **kwargs):
+        _spec = super().call(inputs, *args, **kwargs)
+        return tf.matmul(_spec, self._filters)
